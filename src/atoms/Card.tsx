@@ -40,10 +40,7 @@ const Card: React.FC<CardProps> = ({ id, image, name, description, price, varian
   };
 
   return (
-    <IonCard
-      className="card-custom"
-      onClick={() => history.push(`/articulo/${id}`)} // ✅ corregido
-    >
+    <IonCard className="card-custom" onClick={() => history.push(`/articulo/${id}`)}>
       <IonCardContent className="card-content">
         <IonImg src={image} alt={name} className={`card-image ${variant}`} />
 
@@ -59,7 +56,10 @@ const Card: React.FC<CardProps> = ({ id, image, name, description, price, varian
                   icon={activeHeart ? heart : heartOutline}
                   aria-hidden="true"
                   style={{ fontSize: "35px" }}
-                  onClick={onClick}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    onClick();
+                  }}
                 />
               )}
             </div>

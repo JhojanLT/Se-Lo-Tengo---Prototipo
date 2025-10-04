@@ -16,14 +16,18 @@ const DetalleArticulo: React.FC = () => {
       <IonHeader>
         <IonToolbar color="primary">
           <IonButtons slot="start">
-            <IonBackButton defaultHref="/home" text="Volver" color="light" />
+            <IonBackButton defaultHref="/home" color="light" />
           </IonButtons>
           <IonTitle>{articulo.name}</IonTitle>
         </IonToolbar>
       </IonHeader>
 
-      <IonContent className="ion-padding">
-        <IonImg src={articulo.image} alt={articulo.name} style={{ borderRadius: "12px", marginBottom: "16px" }} />
+      <IonContent className="ion-padding" style={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
+        <IonImg
+          src={articulo.image}
+          alt={articulo.name}
+          style={{ borderRadius: "12px", marginBottom: "16px", width: "80%" }}
+        />
         <h2>{articulo.name}</h2>
         <p>{articulo.description}</p>
         <p>
