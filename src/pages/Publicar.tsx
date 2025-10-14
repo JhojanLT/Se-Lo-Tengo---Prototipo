@@ -28,11 +28,14 @@ const Publicar: React.FC = () => {
         <p className="ruta">Artículos &gt; Publicar</p>
 
         {/* Campo título */}
-        <IonInput label="Nombre publicación" labelPlacement="floating" fill="outline" className="custom-input" />
+        <IonItem color="medium">
+          <IonLabel position="stacked">Titulo</IonLabel>
+          <IonTextarea placeholder="Nombra tu publicación"></IonTextarea>
+        </IonItem>
 
         {/* Tipo de publicación */}
 
-        <IonSelect label="Tipo de publicación" labelPlacement="floating" fill="outline">
+        <IonSelect className="custom-select" label="Tipo de publicación" labelPlacement="floating" fill="outline">
           <IonSelectOption value="apple">Artículo</IonSelectOption>
           <IonSelectOption value="banana">Servicio</IonSelectOption>
           <IonSelectOption value="orange">Solicitud</IonSelectOption>
@@ -49,7 +52,7 @@ const Publicar: React.FC = () => {
 
         {/* Imagen */}
         <div className="image-center">
-          <div className="image-upload">
+          <div style={{ backgroundColor: "white" }} className="image-upload">
             <IonIcon icon={imageOutline} className="image-upload-icon" />
           </div>
         </div>

@@ -14,12 +14,12 @@
   }
 
   .custom-select {
-    --background: #ffffff; // fondo
-    --color: #272727; // color del texto seleccionado
-    --placeholder-color: #272727; // color del placeholder
-    --border-color: transparent; // color del borde
-    --border-radius: 8px; // esquinas redondeadas
-    font-size: 16px; // tamaño de texto
+    --background: white; /* Fondo blanco */
+    --border-color: transparent; /* Quita el borde */
+    --highlight-color-focused: transparent; /* Quita el color del borde al enfocar */
+    border: none !important; /* Elimina el borde del contenedor */
+    border-radius: 8px; /* (opcional) esquinas suaves */
+    color: black; /* Asegura que el texto sea visible */
   }
 
   .ruta {
