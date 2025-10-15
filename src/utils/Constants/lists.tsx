@@ -4,6 +4,7 @@ export const POSTS: CardProps[] = [
   {
     id: "1",
     image: "https://picsum.photos/200?random=1",
+    profileImage: "https://randomuser.me/api/portraits/women/44.jpg",
     name: "Libro de Cálculo II",
     description: "Edición actualizada del libro de cálculo, en excelente estado.",
     price: "$35.000",
@@ -15,9 +16,10 @@ export const POSTS: CardProps[] = [
   {
     id: "2",
     image: "https://picsum.photos/200?random=2",
+    profileImage: "https://randomuser.me/api/portraits/men/46.jpg",
     name: "Clases particulares de programación",
     description: "Ofrezco tutorías personalizadas para principiantes en Java y Python.",
-    price: "$25.000/hora",
+    price: "$25.000",
     variant: "article",
     user: "Carlos Pérez",
     carrera: "Ingeniería de Sistemas",
@@ -26,9 +28,10 @@ export const POSTS: CardProps[] = [
   {
     id: "3",
     image: "https://picsum.photos/200?random=3",
+    profileImage: "https://randomuser.me/api/portraits/men/52.jpg",
     name: "Transporte a la sede norte",
     description: "Viajo todos los días desde Bosa hasta la sede norte, cupo disponible.",
-    price: "$10.000 por trayecto",
+    price: "$10.000",
     variant: "article",
     user: "Daniel Rojas",
     carrera: "Derecho",
@@ -37,6 +40,7 @@ export const POSTS: CardProps[] = [
   {
     id: "4",
     image: "https://picsum.photos/200?random=4",
+    profileImage: "https://randomuser.me/api/portraits/women/65.jpg",
     name: "Busco compañero para proyecto de IA",
     description: "Necesito alguien que sepa un poco de Python y machine learning.",
     variant: "article",
@@ -47,6 +51,7 @@ export const POSTS: CardProps[] = [
   {
     id: "5",
     image: "https://picsum.photos/200?random=5",
+    profileImage: "https://randomuser.me/api/portraits/men/60.jpg",
     name: "Venta de portátil HP",
     description: "Laptop HP i5, 8GB RAM, SSD 512GB. Perfecto estado.",
     price: "$1.500.000",
@@ -58,6 +63,7 @@ export const POSTS: CardProps[] = [
   {
     id: "6",
     image: "https://picsum.photos/200?random=6",
+    profileImage: "https://randomuser.me/api/portraits/women/48.jpg",
     name: "Diseño de logos para proyectos",
     description: "Hago diseño de logos e identidades visuales para tus emprendimientos.",
     price: "$40.000",
@@ -69,6 +75,7 @@ export const POSTS: CardProps[] = [
   {
     id: "7",
     image: "https://picsum.photos/200?random=7",
+    profileImage: "https://randomuser.me/api/portraits/men/70.jpg",
     name: "Busco clases de matemáticas financieras",
     description: "Estoy buscando un tutor que me ayude con la materia.",
     variant: "article",
@@ -79,6 +86,7 @@ export const POSTS: CardProps[] = [
   {
     id: "8",
     image: "https://picsum.photos/200?random=8",
+    profileImage: "https://randomuser.me/api/portraits/women/50.jpg",
     name: "Venta de bicicleta usada",
     description: "Bicicleta GW en buen estado, poco uso, ideal para ciudad.",
     price: "$380.000",

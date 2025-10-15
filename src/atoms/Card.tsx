@@ -1,4 +1,4 @@
-import { IonCard, IonCardContent, IonIcon, IonImg } from "@ionic/react";
+import { IonAvatar, IonCard, IonCardContent, IonIcon, IonImg } from "@ionic/react";
 import "./Card.scss";
 import { heart, heartOutline } from "ionicons/icons";
 import { useEffect, useState } from "react";
@@ -16,6 +16,7 @@ export interface CardProps {
   user?: string;
   carrera?: string;
   tipoPublicacion?: "artículo" | "servicio" | "solicitud";
+  profileImage?: string;
 }
 
 export type variant = "article" | "contact" | "saved";
@@ -24,7 +25,7 @@ const Card: React.FC<CardProps> = ({ id, image, name, description, price, varian
   const { addFavorite, removeFavorite, favorites } = useFavorites();
   const [activeHeart, setActiveHeart] = useState(active || favorites.includes(id));
 
-  const history = useHistory(); // ✅ aquí inicializamos el hook
+  const history = useHistory();
 
   useEffect(() => {
     setActiveHeart(favorites.includes(id));
@@ -42,8 +43,9 @@ const Card: React.FC<CardProps> = ({ id, image, name, description, price, varian
   return (
     <IonCard className="card-custom" onClick={() => history.push(`/articulo/${id}`)}>
       <IonCardContent className="card-content">
-        <IonImg src={image} alt={name} className={`card-image ${variant}`} />
-
+        <IonAvatar className="card-image">
+          <IonImg src={image} alt={name} className={`card-image ${variant}`} />
+        </IonAvatar>
         <div className="card-info">
           <h2 className={`card-name ${variant}`}>{name}</h2>
           <p className={`card-description ${variant}`}>{description}</p>
@@ -55,7 +57,7 @@ const Card: React.FC<CardProps> = ({ id, image, name, description, price, varian
                 <IonIcon
                   icon={activeHeart ? heart : heartOutline}
                   aria-hidden="true"
-                  style={{ fontSize: "35px" }}
+                  style={{ fontSize: "28px", color: "#e0355aff" }}
                   onClick={(e) => {
                     e.stopPropagation();
                     onClick();
