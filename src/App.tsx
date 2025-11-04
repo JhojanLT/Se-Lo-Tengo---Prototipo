@@ -1,4 +1,4 @@
-import { Route } from "react-router-dom";
+import { Redirect, Route } from "react-router-dom";
 import {
   IonApp,
   IonIcon,
@@ -50,6 +50,7 @@ import "@ionic/react/css/palettes/dark.system.css";
 import "./theme/variables.css";
 import { addCircleOutline, heartOutline, homeOutline, peopleOutline, personOutline } from "ionicons/icons";
 import { FavoritesProvider } from "./context/SavedContext";
+import Login from "./pages/Login";
 
 setupIonicReact();
 
@@ -57,50 +58,45 @@ const App: React.FC = () => (
   <FavoritesProvider>
     <IonApp>
       <IonReactRouter>
-        <IonTabs>
-          <IonRouterOutlet>
-            <Route exact path="/Articulos">
-              <Articulos />
-            </Route>
-            <Route exact path="/Dealers">
-              <Dealers />
-            </Route>
-            <Route path="/Publicar">
-              <Publicar />
-            </Route>
-            <Route path="/Guardado">
-              <Guardado />
-            </Route>
-            <Route path="/Perfil">
-              <Perfil />
-            </Route>
-            <Route exact path="/articulo/:id">
-              <DetalleArticulo />
-            </Route>
-          </IonRouterOutlet>
-          <IonTabBar slot="bottom" color="primary" style={{ minHeight: "76px" }}>
-            <IonTabButton tab="Articulos" href="/Articulos">
-              <IonIcon aria-hidden="true" color="light" icon={homeOutline} style={{ fontSize: "35px" }} />
-              <IonLabel style={{ fontSize: "12px" }}>Articulos</IonLabel>
-            </IonTabButton>
-            <IonTabButton tab="Dealers" href="/Dealers">
-              <IonIcon aria-hidden="true" color="light" icon={peopleOutline} style={{ fontSize: "35px" }} />
-              <IonLabel style={{ fontSize: "12px" }}>Dealers</IonLabel>
-            </IonTabButton>
-            <IonTabButton tab="Publicar" href="/Publicar">
-              <IonIcon aria-hidden="true" color="light" icon={addCircleOutline} style={{ fontSize: "35px" }} />
-              <IonLabel style={{ fontSize: "12px" }}>Publicar</IonLabel>
-            </IonTabButton>
-            <IonTabButton tab="Guardado" href="/Guardado">
-              <IonIcon aria-hidden="true" color="light" icon={heartOutline} style={{ fontSize: "35px" }} />
-              <IonLabel style={{ fontSize: "12px" }}>Guardado</IonLabel>
-            </IonTabButton>
-            <IonTabButton tab="Perfil" href="/Perfil">
-              <IonIcon aria-hidden="true" color="light" icon={personOutline} style={{ fontSize: "35px" }} />
-              <IonLabel style={{ fontSize: "12px" }}>Perfil</IonLabel>
-            </IonTabButton>
-          </IonTabBar>
-        </IonTabs>
+        <IonRouterOutlet>
+          <Route exact path="/login" component={Login} />
+          <Redirect exact from="/" to="/login" />
+          <Route exact path="/articulo/:id" component={DetalleArticulo} />
+
+          <Route path="/tabs">
+            <IonTabs>
+              <IonRouterOutlet>
+                <Route exact path="/tabs/Articulos" component={Articulos} />
+                <Route exact path="/tabs/Dealers" component={Dealers} />
+                <Route exact path="/tabs/Publicar" component={Publicar} />
+                <Route exact path="/tabs/Guardado" component={Guardado} />
+                <Route exact path="/tabs/Perfil" component={Perfil} />
+              </IonRouterOutlet>
+              <IonTabBar slot="bottom" color="primary" style={{ minHeight: "76px" }}>
+                <IonTabButton tab="Articulos" href="/tabs/Articulos">
+                  <IonIcon aria-hidden="true" color="light" icon={homeOutline} style={{ fontSize: "35px" }} />
+                  <IonLabel style={{ fontSize: "12px" }}>Articulos</IonLabel>
+                </IonTabButton>
+                <IonTabButton tab="Dealers" href="/tabs/Dealers">
+                  <IonIcon aria-hidden="true" color="light" icon={peopleOutline} style={{ fontSize: "35px" }} />
+                  <IonLabel style={{ fontSize: "12px" }}>Dealers</IonLabel>
+                </IonTabButton>
+                <IonTabButton tab="Publicar" href="/tabs/Publicar">
+                  <IonIcon aria-hidden="true" color="light" icon={addCircleOutline} style={{ fontSize: "35px" }} />
+                  <IonLabel style={{ fontSize: "12px" }}>Publicar</IonLabel>
+                </IonTabButton>
+                <IonTabButton tab="Guardado" href="/tabs/Guardado">
+                  <IonIcon aria-hidden="true" color="light" icon={heartOutline} style={{ fontSize: "35px" }} />
+                  <IonLabel style={{ fontSize: "12px" }}>Guardado</IonLabel>
+                </IonTabButton>
+                <IonTabButton tab="Perfil" href="/tabs/Perfil">
+                  <IonIcon aria-hidden="true" color="light" icon={personOutline} style={{ fontSize: "35px" }} />
+                  <IonLabel style={{ fontSize: "12px" }}>Perfil</IonLabel>
+                </IonTabButton>
+              </IonTabBar>
+            </IonTabs>
+          </Route>
+        </IonRouterOutlet>
       </IonReactRouter>
     </IonApp>
   </FavoritesProvider>

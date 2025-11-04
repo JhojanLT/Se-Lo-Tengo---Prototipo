@@ -2,6 +2,7 @@ import { IonContent, IonPage } from "@ionic/react";
 import "./Dealers.scss";
 import Card from "../atoms/Card";
 import { Header } from "../components/Header";
+import { POSTS } from "../utils/Constants/lists";
 
 const Dealers: React.FC = () => {
   return (
@@ -9,14 +10,17 @@ const Dealers: React.FC = () => {
       <Header page={"Dealers"} color={"secondary"} searchBar={true} />
 
       <IonContent color="light">
-        <Card
-          id="A1"
-          image="https://randomuser.me/api/portraits/men/32.jpg"
-          name="Carlos Ramírez"
-          description="Estudiante de Ingeniería - Disponible para tutorías"
-          price="+57 300 456 7890"
-          variant="contact"
-        />
+        {POSTS.map((fav) => (
+          <Card
+            key={fav.id}
+            id={fav.id}
+            image={fav.profileImage}
+            userName={fav.userName}
+            description={fav.major}
+            contact={fav.contact}
+            variant="contact"
+          ></Card>
+        ))}
       </IonContent>
     </IonPage>
   );

@@ -3,6 +3,7 @@ import "./Perfil.scss";
 import { Header } from "../components/Header";
 import RatingStars from "../atoms/Rating Stars";
 import { createOutline } from "ionicons/icons";
+import { POSTS } from "../utils/Constants/lists";
 
 import "./Perfil.scss";
 import PublicationCard from "../atoms/PublicationCard";
@@ -10,13 +11,17 @@ import PublicationCard from "../atoms/PublicationCard";
 const Perfil: React.FC = () => {
   return (
     <IonPage>
-      <Header color={"primary"} page={"Perfil"} />
+      <Header color={"primary"} page={"Perfil"} bellIcon arrowBackIcon />
       <IonContent color="light">
         <div style={{ display: "flex", justifyContent: "center", marginTop: "2rem" }}>
           <div style={{ position: "relative", display: "inline-block" }}>
             {/* Imagen de perfil */}
             <IonAvatar style={{ width: "120px", height: "120px" }}>
-              <IonImg src="https://picsum.photos/200?random=2" alt="Foto de perfil" style={{ objectFit: "cover" }} />
+              <IonImg
+                src="https://randomuser.me/api/portraits/men/52.jpg"
+                alt="Foto de perfil"
+                style={{ objectFit: "cover" }}
+              />
             </IonAvatar>
 
             {/* Botón de edición */}
@@ -24,7 +29,7 @@ const Perfil: React.FC = () => {
           </div>
         </div>
         <div style={{ marginTop: "1rem" }}>
-          <RatingStars rating={4.3} />
+          <RatingStars rating={2.6} />
         </div>
 
         <div

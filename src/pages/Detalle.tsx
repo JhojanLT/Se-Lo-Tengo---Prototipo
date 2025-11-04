@@ -15,16 +15,18 @@ const DetalleArticulo: React.FC = () => {
 
   return (
     <IonPage>
-      <Header page={articulo.name} color="tertiary" smallTitle />
+      <Header page={articulo.userName} color="tertiary" smallTitle arrowBackIcon />
 
       <IonContent className="detalle-content" color="light">
         <IonAvatar className="detalle-avatar">
-          <IonImg src={articulo.profileImage} alt={articulo.name} />
+          <IonImg src={articulo.profileImage} alt={articulo.userName} />
         </IonAvatar>
 
-        <h2 className="detalle-titulo">{articulo.name}</h2>
+        <h2 className="detalle-titulo" style={{ padding: "0 1rem" }}>
+          {articulo.title}
+        </h2>
 
-        <IonImg className="detalle-imagen" src={articulo.image} alt={articulo.name} />
+        <IonImg className="detalle-imagen" src={articulo.image} alt={articulo.userName} />
 
         <p className="detalle-precio">{articulo.price}</p>
         <p className="detalle-descripcion">{articulo.description}</p>

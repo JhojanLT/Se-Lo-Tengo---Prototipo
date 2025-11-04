@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "969231347173",
+    "project_id": "sltdatabase-aa1ce",
+    "storage_bucket": "sltdatabase-aa1ce.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:969231347173:android:f64f554bd003a47682130c",
+        "android_client_info": {
+          "package_name": "SLT.app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBSzIiVtD1WuM4uzAIw1sFecZqq7WCYKIw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

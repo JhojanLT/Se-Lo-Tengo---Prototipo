@@ -7,17 +7,18 @@ import { POSTS } from "../utils/Constants/lists";
 const Articulos: React.FC = () => {
   return (
     <IonPage>
-      <Header page="Articulos" color="secondary" searchBar={true} />
+      <Header page="Articulos" color="secondary" searchBar arrowBackIcon bellIcon />
       <IonContent color="light">
         {POSTS.map((fav) => (
           <Card
             key={fav.id}
             id={fav.id}
             image={fav.image}
-            name={fav.name}
             description={fav.description}
             price={fav.price}
             variant={fav.variant}
+            title={fav.title}
+            userName={fav.userName}
           ></Card>
         ))}
       </IonContent>
