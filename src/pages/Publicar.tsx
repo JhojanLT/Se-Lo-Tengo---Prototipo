@@ -20,7 +20,7 @@ const Publicar: React.FC = () => {
   return (
     <IonPage className="publicar-page">
       {/* Header */}
-      <Header page={"Publicar"} color={"primary"} />
+      <Header page={"Publicar"} color={"primary"} arrowBackIcon />
 
       {/* Contenido */}
       <IonContent className="ion-padding publicar-page" color="light">

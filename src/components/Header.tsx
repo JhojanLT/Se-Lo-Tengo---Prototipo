@@ -4,6 +4,7 @@ import Notifications from "../atoms/Notifications";
 import { arrowBack } from "ionicons/icons";
 
 import "./Header.scss";
+import LogoutButton from "../atoms/LogOutButton";
 
 interface HeaderProps {
   page: string | undefined;
@@ -12,6 +13,7 @@ interface HeaderProps {
   smallTitle?: boolean;
   arrowBackIcon?: boolean;
   bellIcon?: boolean;
+  logoutButton?: boolean;
 }
 
 export const Header: React.FC<HeaderProps> = ({
@@ -21,22 +23,30 @@ export const Header: React.FC<HeaderProps> = ({
   arrowBackIcon = false,
   smallTitle = false,
   bellIcon = false,
+  logoutButton = true,
 }) => {
   return (
     <IonHeader>
       <IonToolbar color={color} className="articulos-toolbar">
+        {/* Flecha de regreso */}
         {arrowBackIcon && (
-          <div style={{ paddingLeft: "1rem" }}>
-            <IonButtons slot="start">
-              <IonBackButton defaultHref="/home" color="light" icon={arrowBack} text="" />
-            </IonButtons>
-          </div>
+          <IonButtons slot="start">
+            <IonBackButton defaultHref="/tabs/Articulos" color="light" icon={arrowBack} text="" />
+          </IonButtons>
         )}
+
+        {/* Título */}
         <IonTitle color="light" className={`title-style ${smallTitle ? "small" : ""}`}>
           {page}
         </IonTitle>
-        {bellIcon && <Notifications />}
+
+        {/* Campana de notificaciones y botón de logout alineados al final */}
+        <IonButtons slot="end">
+          {bellIcon && <Notifications />}
+          {logoutButton && <LogoutButton />}
+        </IonButtons>
       </IonToolbar>
+
       {searchBar && (
         <IonToolbar color={color} className="articulos-searchbar-toolbar">
           {searchBar && <IonSearchbar animated={true} color="light" placeholder="Buscar" />}

@@ -16,6 +16,7 @@ import Publicar from "./pages/Publicar";
 import Guardado from "./pages/Guardado";
 import Perfil from "./pages/Perfil";
 import DetalleArticulo from "./pages/Detalle";
+import Register from "./pages/auth/register/Register";
 
 /*Iconos*/
 
@@ -50,7 +51,7 @@ import "@ionic/react/css/palettes/dark.system.css";
 import "./theme/variables.css";
 import { addCircleOutline, heartOutline, homeOutline, peopleOutline, personOutline } from "ionicons/icons";
 import { FavoritesProvider } from "./context/SavedContext";
-import Login from "./pages/Login";
+import Login from "./pages/auth/login/Login";
 
 setupIonicReact();
 
@@ -60,9 +61,9 @@ const App: React.FC = () => (
       <IonReactRouter>
         <IonRouterOutlet>
           <Route exact path="/login" component={Login} />
+          <Route exact path="/register" component={Register} />
           <Redirect exact from="/" to="/login" />
           <Route exact path="/articulo/:id" component={DetalleArticulo} />
-
           <Route path="/tabs">
             <IonTabs>
               <IonRouterOutlet>

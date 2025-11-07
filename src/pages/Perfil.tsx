@@ -3,7 +3,6 @@ import "./Perfil.scss";
 import { Header } from "../components/Header";
 import RatingStars from "../atoms/Rating Stars";
 import { createOutline } from "ionicons/icons";
-import { POSTS } from "../utils/Constants/lists";
 
 import "./Perfil.scss";
 import PublicationCard from "../atoms/PublicationCard";

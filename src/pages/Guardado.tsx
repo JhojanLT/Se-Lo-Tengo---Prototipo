@@ -10,7 +10,7 @@ const Guardado: React.FC = () => {
 
   return (
     <IonPage>
-      <Header page={"Guardados"} color={"secondary"} searchBar={true} />
+      <Header page={"Guardados"} color={"secondary"} searchBar={true} arrowBackIcon />
 
       <IonContent color="light">
         {favorites.length === 0 ? (
@@ -22,7 +22,7 @@ const Guardado: React.FC = () => {
                 key={fav.id}
                 id={fav.id}
                 image={fav.image}
-                name={fav.name}
+                userName={fav.userName}
                 description={fav.description}
                 price={fav.price}
                 variant={fav.variant}
