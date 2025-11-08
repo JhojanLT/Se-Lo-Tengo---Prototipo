@@ -1,3 +1,4 @@
+import React, { useState } from "react";
 import {
   IonPage,
   IonButton,
@@ -9,52 +10,75 @@ import {
   IonTextarea,
   IonItem,
   IonLabel,
+  IonImg,
 } from "@ionic/react";
-import { calendarOutline, imageOutline } from "ionicons/icons";
+import { calendarOutline, imageOutline, cameraOutline } from "ionicons/icons";
+import { Camera, CameraResultType, CameraSource } from "@capacitor/camera";
 
 import "./Publicar.scss";
 import CustomButton from "../atoms/CustomButton";
 import { Header } from "../components/Header";
 
 const Publicar: React.FC = () => {
+  const [image, setImage] = useState<string | null>(null);
+
+  // Función para abrir la cámara o galería
+  const takePicture = async () => {
+    try {
+      const photo = await Camera.getPhoto({
+        quality: 90,
+        allowEditing: false,
+        resultType: CameraResultType.DataUrl, // Devuelve la imagen en base64
+        source: CameraSource.Prompt, // Permite elegir cámara o galería
+      });
+
+      setImage(photo.dataUrl!);
+    } catch (error) {
+      console.log("Error al tomar foto:", error);
+    }
+  };
+
   return (
     <IonPage className="publicar-page">
       {/* Header */}
       <Header page={"Publicar"} color={"primary"} arrowBackIcon />
 
-      {/* Contenido */}
       <IonContent className="ion-padding publicar-page" color="light">
         {/* Ruta */}
         <p className="ruta">Artículos &gt; Publicar</p>
 
         {/* Campo título */}
         <IonItem color="medium">
-          <IonLabel position="stacked">Titulo</IonLabel>
+          <IonLabel position="stacked">Título</IonLabel>
           <IonTextarea placeholder="Nombra tu publicación"></IonTextarea>
         </IonItem>
 
         {/* Tipo de publicación */}
-
         <IonSelect className="custom-select" label="Tipo de publicación" labelPlacement="floating" fill="outline">
-          <IonSelectOption value="apple">Artículo</IonSelectOption>
-          <IonSelectOption value="banana">Servicio</IonSelectOption>
-          <IonSelectOption value="orange">Solicitud</IonSelectOption>
+          <IonSelectOption value="articulo">Artículo</IonSelectOption>
+          <IonSelectOption value="servicio">Servicio</IonSelectOption>
+          <IonSelectOption value="solicitud">Solicitud</IonSelectOption>
         </IonSelect>
 
         {/* Descripción */}
         <IonItem color="medium">
           <IonLabel position="stacked">Descripción</IonLabel>
           <IonTextarea placeholder="Escribe una descripción"></IonTextarea>
-          <IonButton slot="end" fill="clear">
-            <IonIcon icon={calendarOutline} />
-          </IonButton>
         </IonItem>
 
         {/* Imagen */}
         <div className="image-center">
-          <div style={{ backgroundColor: "white" }} className="image-upload">
-            <IonIcon icon={imageOutline} className="image-upload-icon" />
-          </div>
+          {image ? (
+            <IonImg src={image} className="preview-img" />
+          ) : (
+            <div className="image-upload" style={{ backgroundColor: "white" }}>
+              <IonIcon icon={imageOutline} className="image-upload-icon" />
+            </div>
+          )}
+          <IonButton onClick={takePicture} fill="outline" color="primary">
+            <IonIcon icon={cameraOutline} slot="start" />
+            Tomar o elegir foto
+          </IonButton>
         </div>
 
         {/* Precio */}

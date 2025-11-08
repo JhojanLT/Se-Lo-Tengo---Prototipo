@@ -1,9 +1,9 @@
-import type { CapacitorConfig } from '@capacitor/cli';
+import type { CapacitorConfig } from "@capacitor/cli";
 
 const config: CapacitorConfig = {
-  appId: 'io.ionic.starter',
-  appName: 'SeLoTengo',
-  webDir: 'dist'
+  appId: "com.selotengo.app",
+  appName: "SeLoTengo",
+  webDir: "dist",
 };
 
 export default config;
