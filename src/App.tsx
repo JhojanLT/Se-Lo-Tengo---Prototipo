@@ -1,4 +1,4 @@
-import { Redirect, Route, Link } from "react-router-dom";
+import { Redirect, Route } from "react-router-dom";
 import {
   IonApp,
   IonIcon,
@@ -22,8 +22,10 @@ import Register from "./pages/auth/register/Register";
 import DetalleArticulo from "./pages/Detalle";
 
 import { addCircleOutline, heartOutline, homeOutline, peopleOutline, personOutline } from "ionicons/icons";
+
 import { FavoritesProvider } from "./context/SavedContext";
 
+/* Ionic CSS */
 import "@ionic/react/css/core.css";
 import "@ionic/react/css/normalize.css";
 import "@ionic/react/css/structure.css";
@@ -35,6 +37,8 @@ import "@ionic/react/css/text-transformation.css";
 import "@ionic/react/css/flex-utils.css";
 import "@ionic/react/css/display.css";
 import "@ionic/react/css/palettes/dark.system.css";
+
+/* Variables de tema */
 import "./theme/variables.css";
 
 setupIonicReact();
@@ -56,45 +60,36 @@ const App: React.FC = () => (
             <Route exact path="/login" component={Login} />
             <Route exact path="/register" component={Register} />
             <Route exact path="/articulo/:id" component={DetalleArticulo} />
-            <Redirect exact from="/" to="/login" />
+
+            <Redirect exact from="/" to="/tabs/" />
             <Redirect exact from="/tabs" to="/tabs/articulos" />
           </IonRouterOutlet>
 
-          {/* TabBar */}
+          {/* Barra de pestañas */}
           <IonTabBar slot="bottom" color="primary" style={{ minHeight: "76px" }}>
-            <IonTabButton tab="articulos">
-              <Link to="/tabs/articulos" style={{ textDecoration: "none", color: "inherit" }}>
-                <IonIcon icon={homeOutline} />
-                <IonLabel>Artículos</IonLabel>
-              </Link>
+            <IonTabButton tab="articulos" href="/tabs/articulos">
+              <IonIcon icon={homeOutline} />
+              <IonLabel>Artículos</IonLabel>
             </IonTabButton>
 
-            <IonTabButton tab="dealers">
-              <Link to="/tabs/dealers" style={{ textDecoration: "none", color: "inherit" }}>
-                <IonIcon icon={peopleOutline} />
-                <IonLabel>Dealers</IonLabel>
-              </Link>
+            <IonTabButton tab="dealers" href="/tabs/dealers">
+              <IonIcon icon={peopleOutline} />
+              <IonLabel>Dealers</IonLabel>
             </IonTabButton>
 
-            <IonTabButton tab="publicar">
-              <Link to="/tabs/publicar" style={{ textDecoration: "none", color: "inherit" }}>
-                <IonIcon icon={addCircleOutline} />
-                <IonLabel>Publicar</IonLabel>
-              </Link>
+            <IonTabButton tab="publicar" href="/tabs/publicar">
+              <IonIcon icon={addCircleOutline} />
+              <IonLabel>Publicar</IonLabel>
             </IonTabButton>
 
-            <IonTabButton tab="guardado">
-              <Link to="/tabs/guardado" style={{ textDecoration: "none", color: "inherit" }}>
-                <IonIcon icon={heartOutline} />
-                <IonLabel>Guardado</IonLabel>
-              </Link>
+            <IonTabButton tab="guardado" href="/tabs/guardado">
+              <IonIcon icon={heartOutline} />
+              <IonLabel>Guardado</IonLabel>
             </IonTabButton>
 
-            <IonTabButton tab="perfil">
-              <Link to="/tabs/perfil" style={{ textDecoration: "none", color: "inherit" }}>
-                <IonIcon icon={personOutline} />
-                <IonLabel>Perfil</IonLabel>
-              </Link>
+            <IonTabButton tab="perfil" href="/tabs/perfil">
+              <IonIcon icon={personOutline} />
+              <IonLabel>Perfil</IonLabel>
             </IonTabButton>
           </IonTabBar>
         </IonTabs>
