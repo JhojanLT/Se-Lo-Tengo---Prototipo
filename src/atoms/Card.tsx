@@ -17,10 +17,10 @@ export interface CardProps {
   major?: string;
   postType?: "product" | "service" | "request";
   contact?: string;
+  carreer?: string;
+  userType?: string;
   active?: boolean;
 }
-
-export type variant = "article" | "contact" | "saved";
 
 const Card: React.FC<CardProps> = ({
   id,
@@ -33,37 +33,58 @@ const Card: React.FC<CardProps> = ({
   variant = "article",
   active,
   contact,
+  carreer,
+  userType,
 }) => {
   const { addFavorite, removeFavorite, favorites } = useFavorites();
   const [activeHeart, setActiveHeart] = useState(active || favorites.includes(id));
-
   const history = useHistory();
 
   useEffect(() => {
     setActiveHeart(favorites.includes(id));
   }, [favorites]);
 
-  const onClick = () => {
-    if (!activeHeart) {
-      addFavorite(id);
+  // Navegación según tipo de card
+  const navigateToDetails = () => {
+    if (variant === "contact") {
+      history.push(`/dealer/${id}`);
     } else {
-      removeFavorite(id);
+      history.push(`/articulo/${id}`);
     }
+  };
+
+  const onClick = () => {
+    if (!activeHeart) addFavorite(id);
+    else removeFavorite(id);
     setActiveHeart(!activeHeart);
   };
 
   return (
-    <IonCard className="card-custom" onClick={() => history.push(`/articulo/${id}`)}>
+    <IonCard className={`card-custom ${variant}`} onClick={navigateToDetails}>
       <IonCardContent className="card-content">
+        {/* Imagen */}
         <IonAvatar className="card-image">
-          <IonImg src={image} alt={variant === "article" ? image : profileImage} className={`card-image ${variant}`} />
+          <IonImg src={image || profileImage} alt={title || userName} className={`card-image ${variant}`} />
         </IonAvatar>
-        <div className="card-info">
-          <h2 className={`card-name ${variant}`}>{variant === "article" ? title : userName}</h2>
-          <p className={`card-description ${variant}`}>{description}</p>
 
+        <div className="card-info">
+          {/* Título o nombre */}
+          <h2 className={`card-name ${variant}`}>{variant === "article" ? title : userName}</h2>
+
+          {/* Descripción o carrera */}
+          <p className={`card-description ${variant}`}>
+            {variant === "article" ? description : carreer || description}
+          </p>
+
+          {/* Precio o contacto */}
           <div className="price-container">
-            <p className={`card-price ${variant}`}>{variant === "article" ? price : contact}</p>
+            {variant === "article" ? (
+              <p className={`card-price ${variant}`}>{price}</p>
+            ) : (
+              <p className={`card-price ${variant}`}>{contact || userType}</p>
+            )}
+
+            {/* Solo los artículos tienen corazón */}
             {variant === "article" && (
               <IonIcon
                 icon={activeHeart ? heart : heartOutline}

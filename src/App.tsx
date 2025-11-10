@@ -20,6 +20,7 @@ import Perfil from "./pages/Perfil";
 import Login from "./pages/auth/login/Login";
 import Register from "./pages/auth/register/Register";
 import DetalleArticulo from "./pages/Detalle";
+import DetalleDealer from "./pages/DetalleDealer";
 
 import { addCircleOutline, heartOutline, homeOutline, peopleOutline, personOutline } from "ionicons/icons";
 
@@ -60,6 +61,7 @@ const App: React.FC = () => (
             <Route exact path="/login" component={Login} />
             <Route exact path="/register" component={Register} />
             <Route exact path="/articulo/:id" component={DetalleArticulo} />
+            <Route exact path="/dealer/:id" component={DetalleDealer} />
 
             <Redirect exact from="/" to="/tabs/" />
             <Redirect exact from="/tabs" to="/tabs/articulos" />
