@@ -2,6 +2,7 @@ import { IonContent, IonPage } from "@ionic/react";
 import "./Dealers.scss";
 import Card from "../atoms/Card";
 import { Header } from "../components/Header";
+import TabBar from "../components/TabBar";
 import { useEffect, useState } from "react";
 import { collection, getDocs } from "firebase/firestore";
 import { db } from "../firebase/firebase";
@@ -17,6 +18,7 @@ export interface IDealers {
 
 const Dealers: React.FC = () => {
   const [dealers, setDealers] = useState<IDealers[]>([]);
+  // useBackButton(); // Temporalmente desactivado para diagnosticar
 
   useEffect(() => {
     const fetchDealers = async () => {
@@ -38,9 +40,9 @@ const Dealers: React.FC = () => {
 
   return (
     <IonPage>
-      <Header page="Dealers" color="secondary" searchBar arrowBackIcon />
+      <Header page="Dealers" color="secondary" searchBar />
 
-      <IonContent color="light">
+      <IonContent color="light" style={{ paddingBottom: "76px" }}>
         {dealers.length > 0 ? (
           dealers.map((dealer) => (
             <Card
@@ -57,6 +59,7 @@ const Dealers: React.FC = () => {
           <p style={{ textAlign: "center", marginTop: "1rem" }}>No hay dealers registrados aún.</p>
         )}
       </IonContent>
+      <TabBar />
     </IonPage>
   );
 };

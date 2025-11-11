@@ -1,101 +1,64 @@
 import { Redirect, Route } from "react-router-dom";
-import {
-  IonApp,
-  IonIcon,
-  IonLabel,
-  IonRouterOutlet,
-  IonTabBar,
-  IonTabButton,
-  IonTabs,
-  setupIonicReact,
-} from "@ionic/react";
-import { IonReactRouter } from "@ionic/react-router";
+import { IonApp, IonRouterOutlet, setupIonicReact } from "@ionic/react";
+import { IonReactHashRouter } from "@ionic/react-router";
 
-import Articulos from "./pages/Articulos";
-import Dealers from "./pages/Dealers";
-import Publicar from "./pages/Publicar";
-import Guardado from "./pages/Guardado";
-import Perfil from "./pages/Perfil";
-
-import Login from "./pages/auth/login/Login";
-import Register from "./pages/auth/register/Register";
-import DetalleArticulo from "./pages/Detalle";
-import DetalleDealer from "./pages/DetalleDealer";
-
-import { addCircleOutline, heartOutline, homeOutline, peopleOutline, personOutline } from "ionicons/icons";
-
-import { FavoritesProvider } from "./context/SavedContext";
-
-/* Ionic CSS */
+/* Core CSS required for Ionic components to work properly */
 import "@ionic/react/css/core.css";
+
+/* Basic CSS for apps built with Ionic */
 import "@ionic/react/css/normalize.css";
 import "@ionic/react/css/structure.css";
 import "@ionic/react/css/typography.css";
+
+/* Optional CSS utils that can be commented out */
 import "@ionic/react/css/padding.css";
 import "@ionic/react/css/float-elements.css";
 import "@ionic/react/css/text-alignment.css";
 import "@ionic/react/css/text-transformation.css";
 import "@ionic/react/css/flex-utils.css";
 import "@ionic/react/css/display.css";
-import "@ionic/react/css/palettes/dark.system.css";
 
-/* Variables de tema */
-import "./theme/variables.css";
+import Articulos from "./pages/Articulos";
+import Guardado from "./pages/Guardado";
+import Dealers from "./pages/Dealers";
+import Perfil from "./pages/Perfil";
+import Publicar from "./pages/Publicar";
+import DetalleArticulo from "./pages/Detalle";
+import DetalleDealer from "./pages/DetalleDealer";
+import Login from "./pages/auth/login/Login";
+import Register from "./pages/auth/register/Register";
+
+import { FavoritesProvider } from "./context/SavedContext";
+import PrivateRoute from "./components/PrivateRoute";
 
 setupIonicReact();
 
 const App: React.FC = () => (
   <FavoritesProvider>
     <IonApp>
-      <IonReactRouter>
-        <IonTabs>
-          <IonRouterOutlet>
-            {/* Rutas dentro de Tabs */}
-            <Route exact path="/tabs/articulos" component={Articulos} />
-            <Route exact path="/tabs/dealers" component={Dealers} />
-            <Route exact path="/tabs/publicar" component={Publicar} />
-            <Route exact path="/tabs/guardado" component={Guardado} />
-            <Route exact path="/tabs/perfil" component={Perfil} />
+      <IonReactHashRouter>
+        <IonRouterOutlet>
+          {/* Rutas de autenticación */}
+          <Route exact path="/login" component={Login} />
+          <Route exact path="/register" component={Register} />
 
-            {/* Rutas fuera de Tabs */}
-            <Route exact path="/login" component={Login} />
-            <Route exact path="/register" component={Register} />
-            <Route exact path="/articulo/:id" component={DetalleArticulo} />
-            <Route exact path="/dealer/:id" component={DetalleDealer} />
+          {/* Rutas principales protegidas */}
+          <PrivateRoute exact path="/articulos" component={Articulos} />
+          <PrivateRoute exact path="/dealers" component={Dealers} />
+          <PrivateRoute exact path="/publicar" component={Publicar} />
+          <PrivateRoute exact path="/guardado" component={Guardado} />
+          <PrivateRoute exact path="/perfil" component={Perfil} />
 
-            <Redirect exact from="/" to="/tabs/" />
-            <Redirect exact from="/tabs" to="/tabs/articulos" />
-          </IonRouterOutlet>
+          {/* Rutas de detalle protegidas */}
+          <PrivateRoute exact path="/articulo/:id" component={DetalleArticulo} />
+          <PrivateRoute exact path="/dealer/:id" component={DetalleDealer} />
 
-          {/* Barra de pestañas */}
-          <IonTabBar slot="bottom" color="primary" style={{ minHeight: "76px" }}>
-            <IonTabButton tab="articulos" href="/tabs/articulos">
-              <IonIcon icon={homeOutline} />
-              <IonLabel>Artículos</IonLabel>
-            </IonTabButton>
-
-            <IonTabButton tab="dealers" href="/tabs/dealers">
-              <IonIcon icon={peopleOutline} />
-              <IonLabel>Dealers</IonLabel>
-            </IonTabButton>
-
-            <IonTabButton tab="publicar" href="/tabs/publicar">
-              <IonIcon icon={addCircleOutline} />
-              <IonLabel>Publicar</IonLabel>
-            </IonTabButton>
-
-            <IonTabButton tab="guardado" href="/tabs/guardado">
-              <IonIcon icon={heartOutline} />
-              <IonLabel>Guardado</IonLabel>
-            </IonTabButton>
-
-            <IonTabButton tab="perfil" href="/tabs/perfil">
-              <IonIcon icon={personOutline} />
-              <IonLabel>Perfil</IonLabel>
-            </IonTabButton>
-          </IonTabBar>
-        </IonTabs>
-      </IonReactRouter>
+          {/* Redirección inicial */}
+          <Route exact path="/">
+            <Redirect to="/login" />
+          </Route>
+        </IonRouterOutlet>
+      </IonReactHashRouter>
     </IonApp>
   </FavoritesProvider>
 );

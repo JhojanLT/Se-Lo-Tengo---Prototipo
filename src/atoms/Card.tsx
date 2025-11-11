@@ -30,7 +30,7 @@ const Card: React.FC<CardProps> = ({
   profileImage,
   description,
   price,
-  variant = "article",
+  variant,
   active,
   contact,
   carreer,
@@ -64,13 +64,19 @@ const Card: React.FC<CardProps> = ({
       <IonCardContent className="card-content">
         {/* Imagen */}
         <IonAvatar className="card-image">
-          <IonImg src={image || profileImage} alt={title || userName} className={`card-image ${variant}`} />
+          <IonImg
+            src={
+              image ? image : profileImage ? profileImage : "https://ionicframework.com/docs/img/demos/avatar.svg" // fallback
+            }
+            alt={title || userName}
+            className={`card-image ${variant}`}
+          />
         </IonAvatar>
 
         <div className="card-info">
           {/* Título o nombre */}
-          <h2 className={`card-name ${variant}`}>{variant === "article" ? title : userName}</h2>
-
+          <h2 className={`card-name ${variant}`}>{title || userName}</h2>
+          <i className={`${variant}`}>{variant}</i>
           {/* Descripción o carrera */}
           <p className={`card-description ${variant}`}>
             {variant === "article" ? description : carreer || description}

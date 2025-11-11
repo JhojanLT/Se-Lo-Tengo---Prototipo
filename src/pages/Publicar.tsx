@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import {
   IonPage,
   IonIcon,
@@ -17,26 +17,28 @@ import { Camera, CameraResultType, CameraSource } from "@capacitor/camera";
 import "./Publicar.scss";
 import CustomButton from "../atoms/CustomButton";
 import { Header } from "../components/Header";
+import TabBar from "../components/TabBar";
 import { collection, addDoc, serverTimestamp } from "firebase/firestore";
-
+import { auth } from "../firebase/firebase";
 import { db } from "../firebase/firebase";
 
 const Publicar: React.FC = () => {
+  // useBackButton(); // Temporalmente desactivado para diagnosticar
+
   const initialStateValues = {
     image: "",
     title: "",
     type: "",
     description: "",
     price: "",
-    createdAt: new Date(),
   };
 
   const [values, setValues] = useState(initialStateValues);
 
+  // ✅ Obtenemos la instancia de Firebase Auth
+
   //Función genérica para actualizar cualquier campo
   const handleChange = (field: string, value: string | number | null) => {
-    console.log(field, value);
-
     setValues((prev) => ({ ...prev, [field]: value }));
   };
 
@@ -56,31 +58,52 @@ const Publicar: React.FC = () => {
     }
   };
 
-  //Funcion para guardar en firebase
+  // Guardar en Firebase con datos del usuario autenticado
   const addOrEditArticle = async (articleObject: object) => {
     try {
+      const user = auth.currentUser;
+
+      if (!user) {
+        alert("Debes iniciar sesión para publicar un artículo.");
+        return;
+      }
+
+      // Extraemos datos del usuario logueado
+      const userName = user.displayName || "Usuario anónimo";
+      const profileImage = user.photoURL || "";
+      const userId = user.uid;
+
+      // Publicamos con toda la info
       await addDoc(collection(db, "articles"), {
         ...articleObject,
-        createdAt: serverTimestamp(), // Reemplaza la fecha local por la del servidor
+        userName,
+        profileImage,
+        userId,
+        createdAt: serverTimestamp(),
       });
+
       console.log("Datos publicados correctamente:", articleObject);
+      alert("Artículo publicado con éxito");
+
+      // Limpiar formulario
+      setValues(initialStateValues);
     } catch (error) {
       console.error("Error al publicar el artículo:", error);
+      alert("Error al publicar el artículo");
     }
   };
 
   //Publicar (mostrar datos)
   const handlePublish = () => {
-    // Aquí luego agregaremos la función para guardar en Firebase
     addOrEditArticle(values);
   };
 
   return (
     <IonPage className="publicar-page">
       {/* Header */}
-      <Header page={"Publicar"} color={"primary"} arrowBackIcon />
+      <Header page={"Publicar"} color={"primary"} />
 
-      <IonContent className="ion-padding publicar-page" color="light">
+      <IonContent className="ion-padding publicar-page" color="light" style={{ paddingBottom: "76px" }}>
         {/* Ruta */}
         <p className="ruta">Artículos &gt; Publicar</p>
 
@@ -143,6 +166,7 @@ const Publicar: React.FC = () => {
         {/* Botón publicar */}
         <CustomButton action="Publicar" onClick={handlePublish} />
       </IonContent>
+      <TabBar />
     </IonPage>
   );
 };

@@ -6,12 +6,15 @@ import { createOutline } from "ionicons/icons";
 
 import "./Perfil.scss";
 import PublicationCard from "../atoms/PublicationCard";
+import TabBar from "../components/TabBar";
 
 const Perfil: React.FC = () => {
+  // useBackButton(); // Temporalmente desactivado para diagnosticar
+
   return (
     <IonPage>
-      <Header color={"primary"} page={"Perfil"} bellIcon arrowBackIcon />
-      <IonContent color="light">
+      <Header color={"primary"} page={"Perfil"} bellIcon />
+      <IonContent color="light" style={{ paddingBottom: "76px" }}>
         <div style={{ display: "flex", justifyContent: "center", marginTop: "2rem" }}>
           <div style={{ position: "relative", display: "inline-block" }}>
             {/* Imagen de perfil */}
@@ -95,6 +98,7 @@ const Perfil: React.FC = () => {
           </div>
         </div>
       </IonContent>
+      <TabBar />
     </IonPage>
   );
 };

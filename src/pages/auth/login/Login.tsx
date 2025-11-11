@@ -1,25 +1,27 @@
 import React, { useState, useEffect } from "react";
 import { IonPage, IonContent, IonInput, IonButton } from "@ionic/react";
 import { useIonRouter } from "@ionic/react";
+import { useLocation } from "react-router-dom";
 import { Header } from "../../../components/Header";
-import { doSignInWithEmailAndPassword, doSignInWithGoogle } from "../../../firebase/auth";
+import { doSignInWithEmailAndPassword } from "../../../firebase/auth";
 import { useAuth } from "../../../context/authContext";
 
 const Login: React.FC = () => {
   const { userLoggedIn } = useAuth();
   const router = useIonRouter();
+  const location = useLocation();
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isSigningIn, setIsSigningIn] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
 
-  // ✅ Redirigir si ya está logueado
+  // Redirigir si ya está logueado - SOLO si estamos en la página de login
   useEffect(() => {
-    if (userLoggedIn) {
-      router.push("/tabs/Articulos", "forward");
+    if (userLoggedIn && location.pathname === "/login") {
+      router.push("/articulos", "forward");
     }
-  }, [userLoggedIn, router]);
+  }, [userLoggedIn, router, location.pathname]);
 
   // 🔹 Manejar inicio de sesión con correo y contraseña
   const onSubmit = async (e: React.FormEvent) => {
@@ -29,31 +31,12 @@ const Login: React.FC = () => {
     setIsSigningIn(true);
     try {
       await doSignInWithEmailAndPassword(email, password);
-      router.push("/tabs/Articulos", "forward");
+      router.push("/articulos", "forward");
     } catch (error: unknown) {
       if (error instanceof Error) {
         setErrorMessage(error.message);
       } else {
         setErrorMessage("Error desconocido al iniciar sesión");
-      }
-      setIsSigningIn(false);
-    }
-  };
-
-  // 🔹 Manejar inicio de sesión con Google
-  const onGoogleSignIn = async (e: React.MouseEvent) => {
-    e.preventDefault();
-    if (isSigningIn) return;
-
-    setIsSigningIn(true);
-    try {
-      await doSignInWithGoogle();
-      router.push("/tabs/Articulos", "forward");
-    } catch (error: unknown) {
-      if (error instanceof Error) {
-        setErrorMessage(error.message);
-      } else {
-        setErrorMessage("Error desconocido al iniciar con Google");
       }
       setIsSigningIn(false);
     }
@@ -83,10 +66,6 @@ const Login: React.FC = () => {
 
           <IonButton expand="block" type="submit" disabled={isSigningIn}>
             Entrar
-          </IonButton>
-
-          <IonButton expand="block" color="secondary" onClick={onGoogleSignIn} disabled={isSigningIn}>
-            Iniciar con Google
           </IonButton>
 
           <IonButton expand="block" fill="clear" onClick={goToRegister}>

@@ -39,7 +39,7 @@ const Register: React.FC = () => {
       });
 
       // 3️⃣ Redirigir a la app
-      router.push("/tabs/articulos", "forward");
+      router.push("/articulos", "forward");
     } catch (error) {
       console.error("Error al registrar usuario:", error);
       setErrorMessage("Error al registrar. Intenta con otro correo o verifica tu conexión.");

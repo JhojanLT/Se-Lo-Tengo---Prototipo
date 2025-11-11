@@ -47,11 +47,11 @@ export const Header: React.FC<HeaderProps> = ({
         </IonButtons>
       </IonToolbar>
 
-      {searchBar && (
+      {/* {searchBar && (
         <IonToolbar color={color} className="articulos-searchbar-toolbar">
           {searchBar && <IonSearchbar animated={true} color="light" placeholder="Buscar" />}
         </IonToolbar>
-      )}
+      )} */}
     </IonHeader>
   );
 };

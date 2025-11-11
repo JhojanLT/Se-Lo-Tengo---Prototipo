@@ -1,18 +1,22 @@
-import { IonPage, IonContent, IonImg, IonAvatar, IonSpinner } from "@ionic/react";
+import { IonPage, IonContent, IonImg, IonAvatar, IonSpinner, IonButton, useIonRouter } from "@ionic/react";
 import { useParams } from "react-router-dom";
 import { Header } from "../components/Header";
 import "./Detalle.scss";
 import PayPalButton from "../atoms/PaypalButtonComponent";
 import { useEffect, useState } from "react";
+import { useAuth } from "../context/authContext"; // 👈 Importar el hook de autenticación
 
-import { doc, getDoc } from "firebase/firestore";
+import { doc, getDoc, deleteDoc } from "firebase/firestore";
 import { db } from "../firebase/firebase";
 
 const DetalleArticulo: React.FC = () => {
   const { id } = useParams<{ id: string }>();
   const [articulo, setArticulo] = useState<any>(null);
   const [loading, setLoading] = useState(true);
+  const router = useIonRouter(); // 👈 se usa para redirigir en Ionic
+  const { isAdmin } = useAuth(); // 👈 Obtener si el usuario es admin
 
+  // --- Cargar artículo ---
   useEffect(() => {
     const fetchArticle = async () => {
       try {
@@ -34,6 +38,22 @@ const DetalleArticulo: React.FC = () => {
     fetchArticle();
   }, [id]);
 
+  // --- Eliminar artículo ---
+  const handleDelete = async () => {
+    const confirmDelete = window.confirm("¿Seguro que quieres eliminar este artículo?");
+    if (!confirmDelete || !articulo?.id) return;
+
+    try {
+      await deleteDoc(doc(db, "articles", articulo.id));
+      alert("Artículo eliminado con éxito");
+      router.push("/articulos", "forward", "replace"); //redirige directamente a la lista
+    } catch (error) {
+      console.error("Error al eliminar el artículo:", error);
+      alert("Error al eliminar el artículo");
+    }
+  };
+
+  // --- Cargando ---
   if (loading) {
     return (
       <IonPage>
@@ -45,6 +65,7 @@ const DetalleArticulo: React.FC = () => {
     );
   }
 
+  // --- No encontrado ---
   if (!articulo) {
     return (
       <IonPage>
@@ -55,34 +76,45 @@ const DetalleArticulo: React.FC = () => {
     );
   }
 
+  // --- Vista de detalle ---
   return (
     <IonPage>
       <Header page={articulo.userName || "Detalle"} color="tertiary" smallTitle arrowBackIcon />
 
       <IonContent className="detalle-content" color="light">
-        {/* Avatar del usuario */}
         {articulo.profileImage && (
           <IonAvatar className="detalle-avatar">
             <IonImg src={articulo.profileImage} alt={articulo.userName} />
           </IonAvatar>
         )}
 
-        {/* Título */}
         <h2 className="detalle-titulo" style={{ padding: "0 1rem" }}>
           {articulo.title}
         </h2>
 
-        {/* Imagen principal */}
         {articulo.image && <IonImg className="detalle-imagen" src={articulo.image} alt={articulo.title} />}
 
-        {/* Precio */}
         {articulo.price && <p className="detalle-precio">${articulo.price}</p>}
 
-        {/* Descripción */}
         <p className="detalle-descripcion">{articulo.description}</p>
 
-        {/* Botón de PayPal solo si es un artículo con precio */}
         {articulo.price && <PayPalButton />}
+
+        {/* 👇 Solo mostrar el botón de eliminar si el usuario es administrador */}
+        {isAdmin && (
+          <IonButton
+            color="danger"
+            expand="block"
+            style={{
+              width: "60%",
+              margin: "0 auto",
+              color: "white",
+            }}
+            onClick={handleDelete}
+          >
+            Eliminar artículo
+          </IonButton>
+        )}
       </IonContent>
     </IonPage>
   );
