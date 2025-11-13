@@ -49,8 +49,37 @@ const Login: React.FC = () => {
 
   return (
     <IonPage>
-      <Header page="Iniciar Sesión" color="primary" logoutButton={false} />
+      <Header page="Iniciar Sesión" color="secondary" logoutButton={false} />
       <IonContent className="ion-padding">
+        {/* Espacio para el logo */}
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            marginTop: "2rem",
+            marginBottom: "2rem",
+          }}
+        >
+          <div
+            style={{
+              width: "250px",
+              height: "250px",
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              textAlign: "center",
+              padding: "1px",
+            }}
+          >
+            <img
+              src="/logo/logo.png"
+              alt="Logo"
+              style={{ width: "250px", height: "250px", objectFit: "contain" }}
+            />
+          </div>
+        </div>
+
         <form onSubmit={onSubmit}>
           <IonInput
             placeholder="Correo electrónico"
@@ -64,11 +93,21 @@ const Login: React.FC = () => {
             onIonChange={(e) => setPassword(e.detail.value ?? "")}
           />
 
-          <IonButton expand="block" type="submit" disabled={isSigningIn}>
+          <IonButton
+            expand="block"
+            color="tertiary"
+            type="submit"
+            disabled={isSigningIn}
+          >
             Entrar
           </IonButton>
 
-          <IonButton expand="block" fill="clear" onClick={goToRegister}>
+          <IonButton
+            expand="block"
+            color="tertiary"
+            fill="clear"
+            onClick={goToRegister}
+          >
             Crear cuenta nueva
           </IonButton>
 

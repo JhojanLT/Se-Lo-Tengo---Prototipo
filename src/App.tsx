@@ -22,9 +22,11 @@ import Articulos from "./pages/Articulos";
 import Guardado from "./pages/Guardado";
 import Dealers from "./pages/Dealers";
 import Perfil from "./pages/Perfil";
+import EditarPerfil from "./pages/EditarPerfil";
 import Publicar from "./pages/Publicar";
 import DetalleArticulo from "./pages/Detalle";
 import DetalleDealer from "./pages/DetalleDealer";
+import Admin from "./pages/Admin";
 import Login from "./pages/auth/login/Login";
 import Register from "./pages/auth/register/Register";
 
@@ -48,6 +50,10 @@ const App: React.FC = () => (
           <PrivateRoute exact path="/publicar" component={Publicar} />
           <PrivateRoute exact path="/guardado" component={Guardado} />
           <PrivateRoute exact path="/perfil" component={Perfil} />
+          <PrivateRoute exact path="/editar-perfil" component={EditarPerfil} />
+
+          {/* Rutas de administración (solo admin) */}
+          <PrivateRoute exact path="/admin" component={Admin} />
 
           {/* Rutas de detalle protegidas */}
           <PrivateRoute exact path="/articulo/:id" component={DetalleArticulo} />

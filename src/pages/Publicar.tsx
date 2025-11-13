@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   IonPage,
   IonIcon,
@@ -10,6 +10,7 @@ import {
   IonItem,
   IonLabel,
   IonImg,
+  IonLoading,
 } from "@ionic/react";
 import { imageOutline } from "ionicons/icons";
 import { Camera, CameraResultType, CameraSource } from "@capacitor/camera";
@@ -19,11 +20,12 @@ import CustomButton from "../atoms/CustomButton";
 import { Header } from "../components/Header";
 import TabBar from "../components/TabBar";
 import { collection, addDoc, serverTimestamp } from "firebase/firestore";
-import { auth } from "../firebase/firebase";
 import { db } from "../firebase/firebase";
+import { useAuth } from "../context/authContext";
+import { getUserProfile } from "../firebase/userService";
 
 const Publicar: React.FC = () => {
-  // useBackButton(); // Temporalmente desactivado para diagnosticar
+  const { currentUser } = useAuth();
 
   const initialStateValues = {
     image: "",
@@ -34,8 +36,7 @@ const Publicar: React.FC = () => {
   };
 
   const [values, setValues] = useState(initialStateValues);
-
-  // ✅ Obtenemos la instancia de Firebase Auth
+  const [loading, setLoading] = useState(false);
 
   //Función genérica para actualizar cualquier campo
   const handleChange = (field: string, value: string | number | null) => {
@@ -60,18 +61,25 @@ const Publicar: React.FC = () => {
 
   // Guardar en Firebase con datos del usuario autenticado
   const addOrEditArticle = async (articleObject: object) => {
-    try {
-      const user = auth.currentUser;
+    if (!currentUser) {
+      alert("Debes iniciar sesión para publicar un artículo.");
+      return;
+    }
 
-      if (!user) {
-        alert("Debes iniciar sesión para publicar un artículo.");
+    setLoading(true);
+    try {
+      // Obtener datos completos del perfil desde Firestore
+      const userProfile = await getUserProfile(currentUser.uid);
+
+      if (!userProfile) {
+        alert("Error al obtener datos del perfil. Por favor, completa tu perfil.");
         return;
       }
 
       // Extraemos datos del usuario logueado
-      const userName = user.displayName || "Usuario anónimo";
-      const profileImage = user.photoURL || "";
-      const userId = user.uid;
+      const userName = userProfile.displayName || "Usuario anónimo";
+      const profileImage = userProfile.photoURL || "";
+      const userId = currentUser.uid;
 
       // Publicamos con toda la info
       await addDoc(collection(db, "articles"), {
@@ -79,6 +87,7 @@ const Publicar: React.FC = () => {
         userName,
         profileImage,
         userId,
+        isActive: true, // Publicación activa por defecto
         createdAt: serverTimestamp(),
       });
 
@@ -90,6 +99,8 @@ const Publicar: React.FC = () => {
     } catch (error) {
       console.error("Error al publicar el artículo:", error);
       alert("Error al publicar el artículo");
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -101,9 +112,10 @@ const Publicar: React.FC = () => {
   return (
     <IonPage className="publicar-page">
       {/* Header */}
-      <Header page={"Publicar"} color={"primary"} />
+      <Header page={"Publicar"} color={"secondary"} />
 
       <IonContent className="ion-padding publicar-page" color="light" style={{ paddingBottom: "76px" }}>
+        <IonLoading isOpen={loading} message="Publicando..." />
         {/* Ruta */}
         <p className="ruta">Artículos &gt; Publicar</p>
 

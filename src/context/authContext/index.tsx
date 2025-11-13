@@ -67,8 +67,8 @@ export function AuthProvider({ children }: AuthProviderProps) {
     isAdmin: userRole === "admin", // 👈 Helper para verificar fácilmente si es admin
   };
 
-  // ✅ Esta línea ya no marcará error
-  return <AuthContext.Provider value={value}>{!loading && children}</AuthContext.Provider>;
+  // ✅ Renderizamos children siempre, el loading se maneja en PrivateRoute
+  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 }
 
 export function useAuth() {

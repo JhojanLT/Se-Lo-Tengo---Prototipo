@@ -16,7 +16,7 @@ const Header: React.FC = () => {
       </IonButtons>
       <IonModal isOpen={isOpen} onDidDismiss={() => setIsOpen(false)}>
         <IonHeader>
-          <IonToolbar color="primary">
+          <IonToolbar color="secondary">
             <IonTitle>Notificaciones</IonTitle>
             <IonButtons slot="end">
               <IonButton onClick={() => setIsOpen(false)}>Cerrar</IonButton>
