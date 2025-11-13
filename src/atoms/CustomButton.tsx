@@ -10,7 +10,7 @@ interface CustomButtonProps {
   action: string;
 }
 
-const CustomButton: React.FC<CustomButtonProps> = ({ onClick, color = "primary", expand = "block", icon, action }) => {
+const CustomButton: React.FC<CustomButtonProps> = ({ onClick, color = "tertiary", expand = "block", icon, action }) => {
   return (
     <div className="btn-container">
       <IonButton className="button-styles" color={color} expand={expand} onClick={onClick}>

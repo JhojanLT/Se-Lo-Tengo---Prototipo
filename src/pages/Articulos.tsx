@@ -16,7 +16,9 @@ interface IArticles {
   title: string;
   price: string;
   userName: string;
+  profileImage?: string;
   type: string;
+  isActive?: boolean;
 }
 
 const Articulos: React.FC = () => {
@@ -26,10 +28,14 @@ const Articulos: React.FC = () => {
   useEffect(() => {
     // Escucha en tiempo real los cambios en Firestore
     const unsubscribe = onSnapshot(collection(db, "articles"), (querySnapshot) => {
-      const fetchedArticles = querySnapshot.docs.map((doc) => ({
-        id: doc.id,
-        ...(doc.data() as Omit<IArticles, "id">),
-      }));
+      const fetchedArticles = querySnapshot.docs
+        .map((doc) => ({
+          id: doc.id,
+          ...(doc.data() as Omit<IArticles, "id">),
+        }))
+        // Filtrar solo publicaciones activas (isActive === true o undefined para retrocompatibilidad)
+        .filter((article) => article.isActive !== false);
+
       setArticles(fetchedArticles);
       console.log("Artículos cargados:", fetchedArticles);
     });
@@ -52,6 +58,7 @@ const Articulos: React.FC = () => {
               description={article.description}
               price={article.price}
               userName={article.userName || "Anónimo"}
+              profileImage={article.profileImage}
               variant="article"
               postType={article.type as "product" | "service" | "request"}
             />

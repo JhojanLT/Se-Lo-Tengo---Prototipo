@@ -5,6 +5,7 @@ import "./Detalle.scss";
 import PayPalButton from "../atoms/PaypalButtonComponent";
 import { useEffect, useState } from "react";
 import { useAuth } from "../context/authContext"; // 👈 Importar el hook de autenticación
+import Comments from "../components/Comments";
 
 import { doc, getDoc, deleteDoc } from "firebase/firestore";
 import { db } from "../firebase/firebase";
@@ -98,6 +99,9 @@ const DetalleArticulo: React.FC = () => {
 
         <p className="detalle-descripcion">{articulo.description}</p>
 
+        {/* Sección de comentarios */}
+        <Comments articleId={id} />
+
         {articulo.price && <PayPalButton />}
 
         {/* 👇 Solo mostrar el botón de eliminar si el usuario es administrador */}
@@ -107,7 +111,7 @@ const DetalleArticulo: React.FC = () => {
             expand="block"
             style={{
               width: "60%",
-              margin: "0 auto",
+              margin: "0 auto 2rem auto",
               color: "white",
             }}
             onClick={handleDelete}
