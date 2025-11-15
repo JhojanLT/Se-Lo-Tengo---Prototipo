@@ -1,6 +1,7 @@
 import {
   doc,
   getDoc,
+  getDocFromServer,
   setDoc,
   updateDoc,
   serverTimestamp,
@@ -42,11 +43,13 @@ export const createUserProfile = async (userData: CreateUserProfile): Promise<vo
 
 /**
  * Obtiene el perfil de un usuario por su UID
+ * Fuerza la obtención desde el servidor para evitar datos cacheados
  */
 export const getUserProfile = async (uid: string): Promise<UserProfile | null> => {
   try {
     const userRef = doc(db, "users", uid);
-    const userSnap = await getDoc(userRef);
+    // Obtener datos directamente del servidor, no del caché
+    const userSnap = await getDocFromServer(userRef);
 
     if (userSnap.exists()) {
       return { ...userSnap.data(), uid: userSnap.id } as UserProfile;
@@ -62,6 +65,7 @@ export const getUserProfile = async (uid: string): Promise<UserProfile | null> =
 
 /**
  * Actualiza el perfil de un usuario en Firestore y Firebase Auth
+ * Si el documento no existe, lo crea automáticamente
  */
 export const updateUserProfile = async (
   uid: string,
@@ -70,11 +74,36 @@ export const updateUserProfile = async (
   try {
     const userRef = doc(db, "users", uid);
 
-    // Actualizar en Firestore
-    await updateDoc(userRef, {
-      ...updates,
-      updatedAt: serverTimestamp(),
-    });
+    // Verificar si el documento existe
+    const userSnap = await getDoc(userRef);
+
+    if (!userSnap.exists()) {
+      // Si no existe, crear el documento con datos básicos del usuario
+      const currentUser = auth.currentUser;
+      console.log("Documento no existe, creando perfil inicial...");
+
+      await setDoc(userRef, {
+        uid,
+        email: currentUser?.email || "",
+        role: "user",
+        displayName: updates.displayName || currentUser?.displayName || "",
+        photoURL: updates.photoURL || currentUser?.photoURL || "",
+        career: updates.career || "",
+        userType: updates.userType || "",
+        bio: updates.bio || "",
+        phone: updates.phone || "",
+        rating: 0,
+        isActive: true,
+        createdAt: serverTimestamp(),
+        updatedAt: serverTimestamp(),
+      });
+    } else {
+      // Si existe, actualizar normalmente
+      await updateDoc(userRef, {
+        ...updates,
+        updatedAt: serverTimestamp(),
+      });
+    }
 
     // Actualizar displayName y photoURL en Firebase Auth si existen
     const currentUser = auth.currentUser;

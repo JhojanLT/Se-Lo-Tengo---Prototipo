@@ -1,7 +1,7 @@
 import React, { useContext, useState, useEffect, ReactNode } from "react";
 import { auth, db } from "../../firebase/firebase";
 import { onAuthStateChanged, User } from "firebase/auth";
-import { doc, getDoc } from "firebase/firestore";
+import { doc, getDoc, setDoc, serverTimestamp } from "firebase/firestore";
 
 //Definimos el tipo del contexto
 interface AuthContextType {
@@ -45,10 +45,27 @@ export function AuthProvider({ children }: AuthProviderProps) {
           const userData = userDocSnap.data();
           setUserRole(userData.role || "user"); // Por defecto "user" si no tiene rol
         } else {
-          setUserRole("user"); // Si no existe el documento, es usuario normal
+          // Si no existe el documento, crearlo automáticamente
+          console.log("Creando perfil de usuario en Firestore...");
+          await setDoc(userDocRef, {
+            uid: user.uid,
+            email: user.email || "",
+            role: "user",
+            displayName: user.displayName || "",
+            photoURL: user.photoURL || "",
+            career: "",
+            userType: "",
+            bio: "",
+            phone: "",
+            rating: 0,
+            isActive: true,
+            createdAt: serverTimestamp(),
+            updatedAt: serverTimestamp(),
+          });
+          setUserRole("user");
         }
       } catch (error) {
-        console.error("Error al obtener el rol del usuario:", error);
+        console.error("Error al obtener/crear el perfil del usuario:", error);
         setUserRole("user"); // En caso de error, asumir usuario normal
       }
     } else {

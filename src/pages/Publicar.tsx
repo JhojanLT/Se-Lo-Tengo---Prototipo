@@ -14,6 +14,7 @@ import {
 } from "@ionic/react";
 import { imageOutline } from "ionicons/icons";
 import { Camera, CameraResultType, CameraSource } from "@capacitor/camera";
+import { useHistory } from "react-router-dom";
 
 import "./Publicar.scss";
 import CustomButton from "../atoms/CustomButton";
@@ -26,6 +27,7 @@ import { getUserProfile } from "../firebase/userService";
 
 const Publicar: React.FC = () => {
   const { currentUser } = useAuth();
+  const history = useHistory();
 
   const initialStateValues = {
     image: "",
@@ -96,6 +98,11 @@ const Publicar: React.FC = () => {
 
       // Limpiar formulario
       setValues(initialStateValues);
+
+      // Navegar a la página de Artículos para ver la publicación
+      setTimeout(() => {
+        history.push("/articulos");
+      }, 1500);
     } catch (error) {
       console.error("Error al publicar el artículo:", error);
       alert("Error al publicar el artículo");

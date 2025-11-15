@@ -8,6 +8,7 @@ import {
   IonSpinner,
   IonText,
   IonButton,
+  useIonViewWillEnter,
 } from "@ionic/react";
 import "./Perfil.scss";
 import { Header } from "../components/Header";
@@ -32,7 +33,14 @@ const Perfil: React.FC = () => {
     if (currentUser) {
       loadUserData();
     }
-  }, [currentUser?.uid]); // Depender solo del UID para evitar renders innecesarios
+  }, [currentUser?.uid]);
+
+  // Recargar datos cada vez que la página se vuelve visible
+  useIonViewWillEnter(() => {
+    if (currentUser) {
+      loadUserData();
+    }
+  });
 
   const loadUserData = async () => {
     if (!currentUser) return;

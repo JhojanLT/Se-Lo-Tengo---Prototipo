@@ -17,6 +17,7 @@ import {
   IonButtons,
   IonLoading,
   IonToast,
+  useIonViewWillEnter,
 } from "@ionic/react";
 import { cameraOutline } from "ionicons/icons";
 import { Camera, CameraResultType, CameraSource } from "@capacitor/camera";
@@ -49,6 +50,13 @@ const EditarPerfil: React.FC = () => {
       loadUserProfile();
     }
   }, [currentUser?.uid]); // Depender solo del UID para evitar renders innecesarios
+
+  // Recargar datos cada vez que la página se vuelve visible
+  useIonViewWillEnter(() => {
+    if (currentUser) {
+      loadUserProfile();
+    }
+  });
 
   const loadUserProfile = async () => {
     if (!currentUser) return;
